@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'hermit-md',
+      name: 'sathanic-v1',
       script: 'index.js',
       instances: process.env.PM2_INSTANCES || 1, // Use 'max' for multi-core auto-scaling
       exec_mode: process.env.PM2_MODE || 'fork', // 'cluster' for multi-instance support
