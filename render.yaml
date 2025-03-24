@@ -1,7 +1,7 @@
 services:
   - type: web
     name: sathanic-v1
-    repo: https://github.com/A-d-i-t-h-y-a-n/sathanic-bot.git
+    repo: https://github.com/sathanicc/New-code-by-sathanic-v1-.git
     branch: main
     env: docker
     dockerfilePath: Dockerfile
