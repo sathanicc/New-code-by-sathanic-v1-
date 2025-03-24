@@ -1,15 +1,19 @@
 {
-  "name": "hermit-md",
-  "version": "4.4.5",
-  "description": "Hermit-md - Simple whatsapp Multi Device bot based on @adiwajshing/baileys.",
+  "name": "sathanic-v1",
+  "version": "5.0.0",
+  "description": "Sathanic v1 - Advanced WhatsApp Multi-Device bot using @adiwajshing/baileys.",
   "main": "index.js",
   "scripts": {
-    "start": "PIDUSAGE_SILENT=true pm2 start . --attach --name hermit-md"
+    "start": "NODE_ENV=production PIDUSAGE_SILENT=true pm2 start ecosystem.config.js --attach --name sathanic-v1",
+    "stop": "pm2 stop sathanic-v1",
+    "restart": "pm2 restart sathanic-v1",
+    "logs": "pm2 logs sathanic-v1"
   },
   "author": "A-d-i-t-h-y-a-n",
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/baileys": "https://github.com/A-d-i-t-h-y-a-n/Baileys.js",
+    "axios": "^1.6.0",
     "browser-id3-writer": "^5.0.0",
     "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.4.5",
