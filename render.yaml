@@ -1,7 +1,7 @@
 services:
   - type: web
-    name: hermit-md
-    repo: https://github.com/A-d-i-t-h-y-a-n/hermit-bot.git
+    name: sathanic-v1
+    repo: https://github.com/A-d-i-t-h-y-a-n/sathanic-bot.git
     branch: main
     env: docker
     dockerfilePath: Dockerfile
@@ -22,19 +22,25 @@ services:
         required: true
       - key: PREFIX
         sync: false
+        value: "!"
       - key: SUDO
         sync: false
+        value: "admin_id_here"
       - key: MODE
         value: "private"
       - key: LOG_MSG
-        value: "false"
+        value: "true"
       - key: AUTO_STATUS_VIEW
-        value: "false"
+        value: "true"
       - key: READ_MSG
-        value: "false"
+        value: "true"
       - key: ALWAYS_ONLINE
-        value: "false"
+        value: "true"
       - key: START_MSG
         value: "true"
       - key: PORT
         value: "3000"
+      - key: NODE_ENV
+        value: "production"
+      - key: MAX_MEMORY
+        value: "512M"
