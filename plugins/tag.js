@@ -1,55 +1,66 @@
-const {
-    Function,
-    parseMention
-} = require('../lib/');
+const { Function, parseMention } = require('../lib/');
+const config = require('../config');
 
 Function({
     pattern: 'tag ?(.*)',
     fromMe: true,
     onlyGroup: true,
-    desc: 'Tag participants in the group',
+    desc: 'Tag participants with dynamic images or GIFs',
     type: 'group'
 }, async (message, match) => {
     const groupMetadata = await message.client.groupMetadata(message.chat).catch(() => {});
     const participants = groupMetadata ? groupMetadata.participants : [];
+    
+    // Get a random image/GIF from API or predefined list
+    const tagImages = [
+        'https://imgur.com/a/ocK7CZJ.jpg',
+        'https://imgur.com/a/ocK7CZJ.jpg',
+        'https://imgur.com/a/ocK7CZJ.jpg'
+    ];
+    const tagImage = config.TAG_IMAGE || tagImages[Math.floor(Math.random() * tagImages.length)];
 
     if (match === 'all') {
-        let msg = '';
+        let msg = '*🚀 Tagging All Members:*\n\n';
         let count = 1;
         for (const participant of participants) {
-            msg += `${count++} @${participant.id.split('@')[0]}\n`;
+            msg += `${count++}. @${participant.id.split('@')[0]}\n`;
         }
         return await message.client.sendMessage(message.chat, {
-            text: msg,
+            image: { url: tagImage },
+            caption: msg,
             mentions: participants.map(participant => participant.id)
         });
-    } 
+    }
 
     if (match === 'admin' || match === 'admins') {
-        const admins = participants.filter(participant => participant.admin !== null).map(participant => participant.id);
-        let msg = '';
+        const admins = participants.filter(p => p.admin !== null).map(p => p.id);
+        let msg = '*👑 Tagging Admins:*\n\n';
         let count = 1;
         for (const admin of admins) {
-            msg += `${count++} @${admin.split('@')[0]}\n`;
+            msg += `${count++}. @${admin.split('@')[0]}\n`;
         }
-        return await message.reply(msg, {
+        return await message.client.sendMessage(message.chat, {
+            image: { url: tagImage },
+            caption: msg,
             mentions: parseMention(msg)
         });
     }
 
     if (match) {
-        return await message.send(match || message.reply_message.text, 'text', {
-            mentions: participants.map(participant => participant.id)
+        return await message.client.sendMessage(message.chat, {
+            image: { url: tagImage },
+            caption: match,
+            mentions: participants.map(p => p.id)
         });
     }
 
     if (!message.reply_message) {
-        return await message.reply('_Example: \ntag all\n.tag admin\n.tag text\nReply to a message_');
+        return await message.reply('_Usage:_\n- `.tag all`\n- `.tag admin`\n- `.tag [message]`\n- Reply to a message with `.tag`');
     }
 
     await message.client.forwardMessage(message.chat, message.quoted_message, {
         contextInfo: {
-            mentionedJid: participants.map(participant => participant.id)
+            mentionedJid: participants.map(p => p.id)
         }
     });
 });
